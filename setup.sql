@@ -15,3 +15,4 @@ alter table public.scores enable row level security;
 create policy "scores_read" on public.scores for select to anon using (true);
 create policy "scores_insert" on public.scores for insert to anon with check (true);
 grant select, insert on public.scores to anon;
+--test
