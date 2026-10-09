@@ -119,9 +119,10 @@ function finish(){
 /* shared leaderboard (Supabase REST, no library needed) */
 const CFG=window.RQ_CONFIG||{},cloudOn=()=>!!(CFG.SUPABASE_URL&&CFG.SUPABASE_ANON_KEY);
 const hdr=()=>({apikey:CFG.SUPABASE_ANON_KEY,Authorization:"Bearer "+CFG.SUPABASE_ANON_KEY,"Content-Type":"application/json"});
+const scoresUrl=()=>CFG.SUPABASE_URL.replace(/\/rest\/v1\/?$/i,"").replace(/\/+$/,"")+"/rest/v1/scores";
 async function pushScore(e){
   if(!cloudOn())return;
-  try{const r=await fetch(CFG.SUPABASE_URL.replace(/\/$/,"")+"/rest/v1/scores",{method:"POST",headers:{...hdr(),Prefer:"return=minimal"},body:JSON.stringify({name:e.name,score:e.score,correct:e.correct,total:e.total,mode:e.mode})});
+  try{const r=await fetch(scoresUrl(),{method:"POST",headers:{...hdr(),Prefer:"return=minimal"},body:JSON.stringify({name:e.name,score:e.score,correct:e.correct,total:e.total,mode:e.mode})});
     if(!r.ok)throw 0;toast("Score added to the shared leaderboard.")}
   catch{toast("Could not reach the shared leaderboard. Your score is saved on this device.")}
 }
@@ -132,7 +133,7 @@ async function renderBoard(){
   $("#boardLead").textContent=on?"Top 10 scores from all players. Updates every 10 seconds.":"Top 10 runs saved on this computer. Scores stay in this browser only.";
   $("#clearBoard").style.display=on?"none":"";
   if(!on){$("#board").innerHTML=rowsHtml(S.slice(0,10));return}
-  const draw=async()=>{try{const r=await fetch(CFG.SUPABASE_URL.replace(/\/$/,"")+"/rest/v1/scores?select=name,score,correct,total,mode,created_at&order=score.desc,created_at.asc&limit=10",{headers:hdr()});if(!r.ok)throw 0;const rows=await r.json();if(location.hash==="#leaderboard")$("#board").innerHTML=rowsHtml(rows)}catch{$("#board").innerHTML='<div class="panel">Could not load the shared leaderboard. Check the internet connection.</div>'}};
+  const draw=async()=>{try{const r=await fetch(scoresUrl()+"?select=name,score,correct,total,mode,created_at&order=score.desc,created_at.asc&limit=10",{headers:hdr()});if(!r.ok)throw 0;const rows=await r.json();if(location.hash==="#leaderboard")$("#board").innerHTML=rowsHtml(rows)}catch{$("#board").innerHTML='<div class="panel">Could not load the shared leaderboard. Check the internet connection.</div>'}};
   $("#board").innerHTML='<div class="panel">Loading…</div>';await draw();boardTimer=setInterval(draw,10000);
 }
 $("#clearBoard").onclick=()=>{if(confirm("Clear all leaderboard scores?")){S=[];commit();renderBoard();toast("Leaderboard cleared.")}};
