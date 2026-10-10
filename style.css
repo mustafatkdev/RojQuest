@@ -57,6 +57,7 @@ input[type=text]{background:#071624;border:1px solid var(--line);color:var(--tx)
 .opt.right{border-color:var(--ok);background:rgba(34,197,94,.15)}.opt.wrong{border-color:var(--err);background:rgba(239,68,68,.15)}
 .expl{margin-top:16px;padding:14px 16px;border-left:4px solid var(--cy);background:rgba(34,240,255,.07);border-radius:0 12px 12px 0}
 .result{text-align:center}.result .big{font:800 4.5rem var(--mono);color:var(--cy)}
+.review{margin-top:26px;text-align:left;border-top:1px solid var(--line);padding-top:16px}.review summary{cursor:pointer;color:var(--cy);font-weight:700}.review-item{margin-top:16px;padding:18px;background:rgba(0,0,0,.2);border:1px solid var(--line);border-radius:14px}.review-item h3{margin:0 0 10px}.review-item p{margin:8px 0}.review-right{color:var(--ok)}.review-wrong{color:#fca5a5}.review-expl{color:var(--mu)}.review-item pre{margin:10px 0;padding:12px;background:#040b14;border-radius:10px;overflow-x:auto}
 .badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.ach{padding:6px 12px;border-radius:99px;border:1px solid var(--line);color:var(--mu);font-size:.9rem}.ach.got{border-color:var(--pu);color:var(--tx);background:rgba(61,220,132,.2)}
 table{width:100%;border-collapse:collapse;background:var(--card);border-radius:18px;overflow:hidden;margin-bottom:20px}
 th,td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--line)}th{color:var(--mu);font-weight:600}

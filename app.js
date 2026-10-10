@@ -14,10 +14,11 @@ const ACH={first:["First Quest","Finish a quiz"],perfect:["Perfect Round","Answe
 /* routing */
 let boardTimer;function route(){clearInterval(boardTimer);
   const v=(location.hash||"#home").slice(1);const view=$("#"+v)?v:"home";
-  if(view!=="play"&&Q){clearInterval(timer);Q=null}
+  if(view!=="play"&&Q){clearInterval(timer);timer=null;Q=null}
   $$(".view").forEach(e=>e.classList.toggle("on",e.id===view));
   $$("#links a").forEach(a=>a.classList.toggle("on",a.dataset.view===view));
-  ({home:renderStats,play:renderSetup,challenges:renderChallenges,leaderboard:renderBoard,about(){}})[view]();
+  if(view==="play"){if(Q)showQ();else renderSetup()}
+  else ({home:renderStats,challenges:renderChallenges,leaderboard:renderBoard,about(){}})[view]();
   window.scrollTo(0,0);
 }
 window.addEventListener("hashchange",route);
@@ -34,7 +35,7 @@ function count(){$$("[data-n]").forEach(e=>{const to=+e.dataset.n,t0=performance
 function renderChallenges(){
   const cards=[`<article class="card"><p class="eyebrow">[ MODE_01 ]</p><div class="ic">⚔</div><h3>Mixed Quest</h3><p>10 random questions, 20 seconds each.</p><p><br><button class="btn primary" data-start="mixed">Start</button></p></article>`,
   `<article class="card"><p class="eyebrow">[ MODE_02 ]</p><div class="ic">⚡</div><h3>Speed Round</h3><p>10 random questions, only 10 seconds each.</p><p><br><button class="btn primary" data-start="speed">Start</button></p></article>`];
-  CATEGORIES.forEach((c,i)=>cards.push(`<article class="card"><p class="eyebrow">[ TOPIC_${String(i+1).padStart(2,"0")} ]</p><div class="ic">${i+1}</div><h3>${c}</h3><p>${QUESTIONS.filter(q=>q.cat===i).length} questions, 20 seconds each.</p><p><br><button class="btn" data-start="cat" data-cat="${i}">Start</button></p></article>`));
+  CATEGORIES.forEach((c,i)=>cards.push(`<article class="card"><p class="eyebrow">[ TOPIC_${String(i+1).padStart(2,"0")} ]</p><div class="ic">${i+1}</div><h3>${c}</h3><p>${QUESTIONS.filter(q=>q.cat===i).length}-question bank · 4 per round · 20 seconds each.</p><p><br><button class="btn" data-start="cat" data-cat="${i}">Start</button></p></article>`));
   $("#challengeGrid").innerHTML=cards.join("");
 }
 document.addEventListener("click",e=>{const b=e.target.closest("[data-start]");if(b)start(b.dataset.start,+b.dataset.cat)});
@@ -67,15 +68,19 @@ function saveName(){
 /* quiz */
 function start(mode,cat){
   if(!P.name){location.hash="play";if(location.hash==="#play")renderSetup();toast("Enter a display name to start.");return}
+  if(!["mixed","speed","cat"].includes(mode)||(mode==="cat"&&(!Number.isInteger(cat)||!CATEGORIES[cat]))){toast("That challenge is unavailable.");return}
   let qs,sec=20;
-  if(mode==="cat")qs=shuffle(QUESTIONS.filter(q=>q.cat===cat));else qs=shuffle(QUESTIONS).slice(0,10);
+  if(mode==="cat")qs=shuffle(QUESTIONS.filter(q=>q.cat===cat)).slice(0,4);else qs=shuffle(QUESTIONS).slice(0,10);
+  if(!qs.length){toast("No questions are available for this challenge.");return}
   if(mode==="speed")sec=10;
   qs=qs.map(q=>{const order=shuffle(q.opts.map((_,i)=>i));return{...q,order,right:order.indexOf(q.ans)}});
-  Q={mode,cat,qs,sec,i:0,score:0,correct:0,streak:0,best:0,left:sec,done:false,newAch:[]};
-  if(location.hash!=="#play")location.hash="play";else $$(".view").forEach(e=>e.classList.toggle("on",e.id==="play"));
+  Q={mode,cat,qs,sec,i:0,score:0,correct:0,streak:0,best:0,left:sec,done:false,newAch:[],review:[]};
+  if(location.hash!=="#play"){location.hash="play";return}
+  $$(".view").forEach(e=>e.classList.toggle("on",e.id==="play"));
   showQ();
 }
 function showQ(){
+  clearInterval(timer);timer=null;
   const q=Q.qs[Q.i];Q.done=false;Q.left=Q.sec;
   const title=Q.mode==="cat"?CATEGORIES[Q.cat]:Q.mode==="speed"?"Speed Round":"Mixed Quest";
   $("#playBody").innerHTML=`<div class="panel">
@@ -87,12 +92,15 @@ function showQ(){
    <div class="opts">${q.order.map((o,k)=>`<button class="opt" data-k="${k}"><kbd>${"ABCD"[k]}</kbd>${esc(q.opts[o])}</button>`).join("")}</div>
    <div id="fb"></div></div>`;
   $$(".opt").forEach(b=>b.onclick=()=>answer(+b.dataset.k));
-  clearInterval(timer);const t0=Date.now();
-  timer=setInterval(()=>{Q.left=Math.max(0,Q.sec-(Date.now()-t0)/1000);const tm=$("#tm");if(!tm)return;tm.textContent=Math.ceil(Q.left);tm.classList.toggle("low",Q.left<=5);if(Q.left<=0)answer(-1)},100);
+  const round=Q,index=Q.i,t0=Date.now();let roundTimer;
+  roundTimer=setInterval(()=>{if(Q!==round||round.i!==index||round.done){clearInterval(roundTimer);if(timer===roundTimer)timer=null;return}round.left=Math.max(0,round.sec-(Date.now()-t0)/1000);const tm=$("#tm");if(!tm)return;tm.textContent=Math.ceil(round.left);tm.classList.toggle("low",round.left<=5);if(round.left<=0)answer(-1)},100);
+  timer=roundTimer;
 }
 function answer(k){
-  if(!Q||Q.done)return;Q.done=true;clearInterval(timer);
+  if(!Q||Q.done||!Number.isInteger(k)||k< -1||k>=Q.qs[Q.i].order.length)return;
+  Q.done=true;clearInterval(timer);timer=null;
   const q=Q.qs[Q.i],ok=k===q.right;P.answered++;
+  Q.review.push({question:q.q,code:q.code,chosen:k<0?null:q.opts[q.order[k]],correct:q.opts[q.order[q.right]],explanation:q.exp});
   if(ok){const bonus=Math.floor(Q.left/Q.sec*10);Q.score+=q.pts+bonus;Q.correct++;Q.streak++;Q.best=Math.max(Q.best,Q.streak);P.correct++}else Q.streak=0;
   $$(".opt").forEach((b,i)=>{b.disabled=true;if(i===q.right)b.classList.add("right");else if(i===k)b.classList.add("wrong")});
   const last=Q.i===Q.qs.length-1;
@@ -107,12 +115,15 @@ function finish(){
   const give=k=>{if(!P.ach.includes(k)){P.ach.push(k);Q.newAch.push(ACH[k][0])}};
   give("first");if(Q.correct===n)give("perfect");if(Q.best>=5)give("fire");if(level()>=3)give("lvl3");
   commit();
-  $("#playBody").innerHTML=`<div class="panel result"><p class="tag">Quest complete</p><div class="big" id="sc">0</div><p class="lead" style="margin:auto">${Q.correct} of ${n} correct · ${Math.round(Q.correct/n*100)}% accuracy · longest streak ${Q.best}</p>
+  const title=Q.mode==="cat"?CATEGORIES[Q.cat]:Q.mode==="speed"?"Speed Round":"Mixed Quest";
+  const performance=Q.correct===n?"Perfect round — outstanding work!":Q.correct>=Math.ceil(n*.75)?"Great work — you know this material well.":Q.correct>=Math.ceil(n*.5)?"Good effort — review the explanations to improve.":"Keep practising — every attempt builds your skills.";
+  const reviewHtml=Q.review.map((r,i)=>`<article class="review-item"><h3>${i+1}. ${esc(r.question)}</h3>${r.code?`<pre><code>${esc(r.code)}</code></pre>`:""}<p><b>Your answer:</b> ${r.chosen===null?'<span class="review-wrong">Unanswered</span>':`<span class="${r.chosen===r.correct?"review-right":"review-wrong"}">${esc(r.chosen)}</span>`}</p><p><b>Correct answer:</b> <span class="review-right">${esc(r.correct)}</span></p><p class="review-expl">${esc(r.explanation)}</p></article>`).join("");
+  $("#playBody").innerHTML=`<div class="panel result"><p class="tag">Quest complete · ${esc(title)}</p><div class="big">${Q.correct}/${n}</div><p class="lead" style="margin:auto">${Q.correct} correct · ${n-Q.correct} incorrect or unanswered · ${Math.round(Q.correct/n*100)}% accuracy · longest streak ${Q.best}</p><p>${performance}</p>
    <p>+${Q.score} XP · Level ${level()}${level()>oldLvl?" — level up!":""}</p>
    ${Q.newAch.length?`<div class="badges" style="justify-content:center">${Q.newAch.map(a=>`<span class="ach got">★ ${a} unlocked</span>`).join("")}</div>`:""}
-   <div class="row" style="justify-content:center"><button class="btn primary" id="again">Play again</button><a class="btn" href="#leaderboard">View leaderboard</a><button class="btn ghost" id="prof">Profile</button></div></div>`;
-  const to=Q.score,t0=performance.now(),m=Q.mode,c=Q.cat;
-  (function f(t){const p=Math.min(1,(t-t0)/1000);const e=$("#sc");if(e)e.textContent=Math.round(to*p);if(p<1)requestAnimationFrame(f)})(t0);
+   <div class="row" style="justify-content:center"><button class="btn primary" id="again">Play again</button><a class="btn" href="#challenges">Back to topics</a><a class="btn ghost" href="#leaderboard">View leaderboard</a><button class="btn ghost" id="prof">Profile</button></div>
+   <details class="review"><summary>Review answers (${n})</summary>${reviewHtml}</details></div>`;
+  const m=Q.mode,c=Q.cat;
   $("#again").onclick=()=>start(m,c);$("#prof").onclick=renderSetup;Q=null;
 }
 
