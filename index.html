@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,24 +9,25 @@
 <body>
 <div class="bg" aria-hidden="true"></div>
 <header class="nav">
-  <a class="logo" href="#home" aria-label="Roj Quest home">
+  <a class="logo" href="#home" aria-label="Roj Quest home" data-i18n-aria="Roj Quest home">
     <img class="logo-img" src="logo.png" alt="" width="62" height="40">
     <span>Roj <b>Quest</b></span>
   </a>
   <nav class="links" id="links">
-    <a href="#home" data-view="home">Home</a><a href="#play" data-view="play">Play</a><a href="#challenges" data-view="challenges">Challenges</a><a href="#leaderboard" data-view="leaderboard">Leaderboard</a><a href="#about" data-view="about">About</a>
+    <a href="#home" data-view="home" data-i18n="Home">Home</a><a href="#play" data-view="play" data-i18n="Play">Play</a><a href="#study" data-view="study" data-i18n="Study">Study</a><a href="#resources" data-view="resources" data-i18n="Resources">Resources</a><a href="#challenges" data-view="challenges" data-i18n="Challenges">Challenges</a><a href="#leaderboard" data-view="leaderboard" data-i18n="Leaderboard">Leaderboard</a><a href="#about" data-view="about" data-i18n="About">About</a>
   </nav>
-  <a class="btn primary" href="#play">Play Now</a>
+  <button class="btn lang-toggle" id="languageToggle" type="button" aria-label="Switch language">کوردی</button>
+  <a class="btn primary" href="#play" data-i18n="Play Now">Play Now</a>
 </header>
 
 <main>
 <section id="home" class="view">
   <div class="hero">
     <div class="hero-text">
-      <p class="tag">Think. Code. Conquer.</p>
-      <h1>YOUR NEXT QUEST STARTS HERE.</h1>
-      <p class="lead">Test your programming knowledge, solve challenges, earn XP, and climb the leaderboard.</p>
-      <div class="row"><a class="btn primary big" href="#play">Start Your Quest</a><a class="btn ghost big" href="#challenges">Explore Challenges</a></div>
+      <p class="tag" data-i18n="Think. Code. Conquer.">Think. Code. Conquer.</p>
+      <h1 data-i18n="YOUR NEXT QUEST STARTS HERE.">YOUR NEXT QUEST STARTS HERE.</h1>
+      <p class="lead" data-i18n="Test your programming knowledge, solve challenges, earn XP, and climb the leaderboard.">Test your programming knowledge, solve challenges, earn XP, and climb the leaderboard.</p>
+      <div class="row"><a class="btn primary big" href="#play" data-i18n="Start Your Quest">Start Your Quest</a><a class="btn ghost big" href="#challenges" data-i18n="Explore Challenges">Explore Challenges</a><a class="btn ghost big" href="#study" data-i18n="Study mode">Study mode</a><a class="btn ghost big" href="#resources" data-i18n="Learning library">Learning library</a></div>
     </div>
     <div class="editor" aria-hidden="true">
       <div class="dots"><i></i><i></i><i></i><span>quest.c</span></div>
@@ -45,57 +46,91 @@
 
   <div class="wrap">
     <div class="stats" id="stats"></div>
-    <p class="note">All numbers above are real: they are counted from the content in this site and the activity saved in this browser. Nothing is simulated.</p>
+    <p class="note" data-i18n="All numbers above are real: they are counted from the content in this site and the activity saved in this browser. Nothing is simulated.">All numbers above are real: they are counted from the content in this site and the activity saved in this browser. Nothing is simulated.</p>
 
-    <p class="eyebrow">[ FEATURES ]</p><h2>What you can <em>do</em></h2>
+    <p class="eyebrow" data-i18n="[ FEATURES ]">[ FEATURES ]</p><h2 data-i18n="What you can do">What you can <em>do</em></h2>
     <div class="grid4">
-      <article class="card"><div class="ic">❯_</div><h3>Interactive quizzes</h3><p>Multiple-choice C questions with code panels and instant explanations.</p></article>
-      <article class="card"><div class="ic">⏱</div><h3>Timed challenges</h3><p>Every question has a countdown. Answer faster to earn bonus points.</p></article>
-      <article class="card"><div class="ic">★</div><h3>XP and achievements</h3><p>Level up as you play and unlock badges for streaks and perfect rounds.</p></article>
-      <article class="card"><div class="ic">♛</div><h3>Leaderboard</h3><p>Your best runs are ranked so the whole festival can see who leads.</p></article>
+      <article class="card"><div class="ic">❯_</div><h3 data-i18n="Interactive quizzes">Interactive quizzes</h3><p data-i18n="Multiple-choice C questions with code panels and instant explanations.">Multiple-choice C questions with code panels and instant explanations.</p></article>
+      <article class="card"><div class="ic">⏱</div><h3 data-i18n="Timed challenges">Timed challenges</h3><p data-i18n="Every question has a countdown. Answer faster to earn bonus points.">Every question has a countdown. Answer faster to earn bonus points.</p></article>
+      <article class="card"><div class="ic">★</div><h3 data-i18n="XP and achievements">XP and achievements</h3><p data-i18n="Level up as you play and unlock badges for streaks and perfect rounds.">Level up as you play and unlock badges for streaks and perfect rounds.</p></article>
+      <article class="card"><div class="ic">♛</div><h3 data-i18n="Leaderboard">Leaderboard</h3><p data-i18n="Your best runs are ranked so the whole festival can see who leads.">Your best runs are ranked so the whole festival can see who leads.</p></article>
     </div>
 
-    <p class="eyebrow">[ PROCESS ]</p><h2>How it <em>works</em></h2>
+    <p class="eyebrow" data-i18n="[ PROCESS ]">[ PROCESS ]</p><h2 data-i18n="How it works">How it <em>works</em></h2>
     <ol class="steps">
-      <li><b>Choose a challenge</b><span>Pick a topic, a mixed round, or the speed round.</span></li>
-      <li><b>Answer programming questions</b><span>Read the code, think, and pick one of four answers.</span></li>
-      <li><b>Earn points and XP</b><span>Correct answers score points. Fast ones score more.</span></li>
-      <li><b>Improve your ranking</b><span>Beat your best score and move up the leaderboard.</span></li>
+      <li><b data-i18n="Choose a challenge">Choose a challenge</b><span data-i18n="Pick a topic, a mixed round, or the speed round.">Pick a topic, a mixed round, or the speed round.</span></li>
+      <li><b data-i18n="Answer programming questions">Answer programming questions</b><span data-i18n="Read the code, think, and pick one of four answers.">Read the code, think, and pick one of four answers.</span></li>
+      <li><b data-i18n="Earn points and XP">Earn points and XP</b><span data-i18n="Correct answers score points. Fast ones score more.">Correct answers score points. Fast ones score more.</span></li>
+      <li><b data-i18n="Improve your ranking">Improve your ranking</b><span data-i18n="Beat your best score and move up the leaderboard.">Beat your best score and move up the leaderboard.</span></li>
     </ol>
   </div>
 </section>
 
 <section id="play" class="view"><div class="wrap" id="playBody"></div></section>
 
+<section id="study" class="view"><div class="wrap">
+  <h1 class="h1s" data-i18n="Study mode">Study mode</h1>
+  <p class="lead" data-i18n="Explore C questions at your own pace. No timer, score, XP, or leaderboard entry.">Explore C questions at your own pace. No timer, score, XP, or leaderboard entry.</p>
+  <p class="note" data-i18n="C quiz questions, choices, and explanations are currently in English.">C quiz questions, choices, and explanations are currently in English.</p>
+  <div class="study-progress panel" id="studyProgress"></div>
+  <div class="panel study-panel">
+    <div class="row study-controls">
+      <label for="studyTopic" data-i18n="Choose a topic">Choose a topic</label>
+      <select id="studyTopic"></select>
+    </div>
+    <div id="studyCard" aria-live="polite"></div>
+  </div>
+</div></section>
+
+<section id="resources" class="view"><div class="wrap">
+  <h1 class="h1s" data-i18n="Learning library">Learning library</h1>
+  <p class="lead" data-i18n="Find free video lessons and books or reading guides for popular programming languages. Resources open on their original sites.">Find free video lessons and books or reading guides for popular programming languages. Resources open on their original sites.</p>
+  <div class="panel resource-filter">
+    <label for="resourceLanguage" data-i18n="Choose a language">Choose a language</label>
+    <select id="resourceLanguage"></select>
+  </div>
+  <div class="resource-columns">
+    <section aria-labelledby="videoHeading">
+      <p class="eyebrow" data-i18n="[ WATCH ]">[ WATCH ]</p><h2 id="videoHeading" class="resource-heading" data-i18n="Video courses">Video courses</h2>
+      <div class="resource-grid" id="videoResources"></div>
+    </section>
+    <section aria-labelledby="bookHeading">
+      <p class="eyebrow" data-i18n="[ READ ]">[ READ ]</p><h2 id="bookHeading" class="resource-heading" data-i18n="Books &amp; guides">Books &amp; guides</h2>
+      <div class="resource-grid" id="bookResources"></div>
+    </section>
+  </div>
+</div></section>
+
 <section id="challenges" class="view"><div class="wrap">
-  <h1 class="h1s">Challenges</h1>
-  <p class="lead">Pick a topic to practise, or take on a mixed round. Questions are shuffled each time.</p>
+  <h1 class="h1s" data-i18n="Challenges">Challenges</h1>
+  <p class="lead" data-i18n="Pick a topic to practise, or take on a mixed round. Questions are shuffled each time.">Pick a topic to practise, or take on a mixed round. Questions are shuffled each time.</p>
+  <p class="note" data-i18n="C quiz questions, choices, and explanations are currently in English.">C quiz questions, choices, and explanations are currently in English.</p>
   <div class="grid3" id="challengeGrid"></div>
 </div></section>
 
 <section id="leaderboard" class="view"><div class="wrap">
-  <h1 class="h1s">Leaderboard</h1>
+  <h1 class="h1s" data-i18n="Leaderboard">Leaderboard</h1>
   <p class="lead" id="boardLead">Top 10 scores.</p>
   <div id="board"></div>
-  <button class="btn ghost" id="clearBoard">Clear leaderboard</button>
+  <button class="btn ghost" id="clearBoard" data-i18n="Clear leaderboard">Clear leaderboard</button>
 </div></section>
 
 <section id="about" class="view"><div class="wrap narrow">
-  <h1 class="h1s">About Roj Quest</h1>
-  <p class="lead">Roj Quest is a programming quiz game built for a university festival. It focuses on the C language and runs fully in the browser, with no server or account.</p>
-  <h2>Scoring</h2>
-  <p>Easy questions are worth 10 points, medium 20, and hard 30. A correct answer also adds a time bonus of up to 10 points. XP equals the points you score, and every 100 XP is one level.</p>
-  <h2>Modes</h2>
-  <p><b>Topic rounds</b> use the 4 questions of one category with 20 seconds each. <b>Mixed Quest</b> is 10 random questions with 20 seconds each. <b>Speed Round</b> is 10 random questions with only 10 seconds each.</p>
-  <h2>Your data</h2>
-  <p>No registration is needed. Your name and XP are saved in this browser. When you finish a quiz, your name and score are also sent to the shared leaderboard if the organiser has turned it on. The button below erases only the data saved in this browser.</p>
-  <button class="btn danger" id="resetAll">Reset all saved data</button>
+  <h1 class="h1s" data-i18n="About Roj Quest">About Roj Quest</h1>
+  <p class="lead" data-i18n="Roj Quest is a programming quiz game built for a university festival. It focuses on the C language and runs fully in the browser, with no server or account.">Roj Quest is a programming quiz game built for a university festival. It focuses on the C language and runs fully in the browser, with no server or account.</p>
+  <h2 data-i18n="Scoring">Scoring</h2>
+  <p data-i18n="Easy questions are worth 10 points, medium 20, and hard 30. A correct answer also adds a time bonus of up to 10 points. XP equals the points you score, and every 100 XP is one level.">Easy questions are worth 10 points, medium 20, and hard 30. A correct answer also adds a time bonus of up to 10 points. XP equals the points you score, and every 100 XP is one level.</p>
+  <h2 data-i18n="Modes">Modes</h2>
+  <p data-i18n="Topic rounds use the 4 questions of one category with 20 seconds each. Mixed Quest is 10 random questions with 20 seconds each. Speed Round is 10 random questions with only 10 seconds each.">Topic rounds use the 4 questions of one category with 20 seconds each. Mixed Quest is 10 random questions with 20 seconds each. Speed Round is 10 random questions with only 10 seconds each.</p>
+  <h2 data-i18n="Your data">Your data</h2>
+  <p data-i18n="No registration is needed. Your name and XP are saved in this browser. When you finish a quiz, your name and score are also sent to the shared leaderboard if the organiser has turned it on. The button below erases only the data saved in this browser.">No registration is needed. Your name and XP are saved in this browser. When you finish a quiz, your name and score are also sent to the shared leaderboard if the organiser has turned it on. The button below erases only the data saved in this browser.</p>
+  <button class="btn danger" id="resetAll" data-i18n="Reset all saved data">Reset all saved data</button>
 </div></section>
 </main>
 
 <footer class="foot">
-  <div><a class="logo" href="#home"><span>Roj <b>Quest</b></span></a><p>A C programming quiz game for university festivals. Think. Code. Conquer.</p></div>
-  <div class="flinks"><a href="#home">Home</a><a href="#play">Play</a><a href="#challenges">Challenges</a><a href="#leaderboard">Leaderboard</a><a href="#about">About</a></div>
+  <div><a class="logo" href="#home"><span>Roj <b>Quest</b></span></a><p data-i18n="A C programming quiz game for university festivals. Think. Code. Conquer.">A C programming quiz game for university festivals. Think. Code. Conquer.</p></div>
+  <div class="flinks"><a href="#home" data-i18n="Home">Home</a><a href="#play" data-i18n="Play">Play</a><a href="#study" data-i18n="Study">Study</a><a href="#resources" data-i18n="Resources">Resources</a><a href="#challenges" data-i18n="Challenges">Challenges</a><a href="#leaderboard" data-i18n="Leaderboard">Leaderboard</a><a href="#about" data-i18n="About">About</a></div>
   <p class="copy">© 2026 Roj Quest. All rights reserved.</p>
 </footer>
 <div class="toast" id="toast" role="status"></div>

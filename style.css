@@ -1,3 +1,4 @@
+@font-face{font-family:"K24 Kurdish";src:url("K24KurdishBold-Bold.ttf") format("truetype");font-style:normal;font-weight:700;font-display:swap}
 :root{/* RojTech palette, estimated from a screenshot (not exact hex values) */--brand:#22f0ff;--accent:#3ddc84;--surface:var(--card);--border:var(--line);--radius:18px;--bg:#040b14;--bg2:#071624;--card:rgba(255,255,255,.05);--line:rgba(34,240,255,.14);--cy:#22f0ff;--pu:#3ddc84;--ok:#3ddc84;--warn:#f47c30;--err:#ef4444;--tx:#e8ecf2;--mu:#7d93a0;--mono:"JetBrains Mono","Fira Code",Consolas,"Courier New",monospace}
 *{box-sizing:border-box}html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 "Segoe UI",system-ui,-apple-system,Roboto,sans-serif}
@@ -43,6 +44,7 @@ pre{margin:0;padding:20px;overflow-x:auto;font:.95rem/1.7 var(--mono);color:#dbe
 .panel{padding:26px;margin-bottom:20px}
 .profile{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}.profile div{background:rgba(0,0,0,.25);border-radius:12px;padding:12px}.profile b{display:block;font:700 1.4rem var(--mono)}.profile small{color:var(--mu)}
 input[type=text]{background:#071624;border:1px solid var(--line);color:var(--tx);padding:11px 14px;border-radius:12px;font:1rem inherit;min-width:220px}
+select{background:#071624;border:1px solid var(--line);color:var(--tx);padding:11px 14px;border-radius:12px;font:inherit;min-width:min(280px,100%)}
 .bar{height:10px;background:rgba(255,255,255,.08);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cy),var(--pu));transition:width .4s}
 .badge{display:inline-block;padding:3px 10px;border-radius:99px;font-size:.8rem;border:1px solid var(--line);color:var(--mu);margin-right:6px}
 .badge.Easy{color:var(--ok)}.badge.Medium{color:var(--warn)}.badge.Hard{color:var(--err)}
@@ -59,6 +61,8 @@ input[type=text]{background:#071624;border:1px solid var(--line);color:var(--tx)
 .result{text-align:center}.result .big{font:800 4.5rem var(--mono);color:var(--cy)}
 .review{margin-top:26px;text-align:left;border-top:1px solid var(--line);padding-top:16px}.review summary{cursor:pointer;color:var(--cy);font-weight:700}.review-item{margin-top:16px;padding:18px;background:rgba(0,0,0,.2);border:1px solid var(--line);border-radius:14px}.review-item h3{margin:0 0 10px}.review-item p{margin:8px 0}.review-right{color:var(--ok)}.review-wrong{color:#fca5a5}.review-expl{color:var(--mu)}.review-item pre{margin:10px 0;padding:12px;background:#040b14;border-radius:10px;overflow-x:auto}
 .badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.ach{padding:6px 12px;border-radius:99px;border:1px solid var(--line);color:var(--mu);font-size:.9rem}.ach.got{border-color:var(--pu);color:var(--tx);background:rgba(61,220,132,.2)}
+.study-progress-title{font-size:1.35rem;margin:0 0 8px}.topic-progress{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 24px;margin-top:18px}.topic-progress-item{min-width:0}.topic-progress-label{display:flex;justify-content:space-between;gap:10px;margin-bottom:7px}.topic-progress-label b{font-weight:600}.topic-progress-label span{color:var(--mu);text-align:right;font-size:.9rem}.study-controls{align-items:center;margin:0 0 20px}.study-controls label{font-weight:700}.study-question{font-size:1.5rem;margin:12px 0}.study-options{padding-left:2.6rem}.study-options li{padding:8px 10px;margin:6px 0;background:rgba(0,0,0,.2);border-radius:8px}.study-actions{margin-top:20px}.study-panel{max-width:900px}.expl p{margin:8px 0 0}
+.resource-filter{display:flex;align-items:center;gap:18px}.resource-filter label{font-weight:700}.resource-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}.resource-heading{font-size:1.5rem;margin:0 0 16px}.resource-grid{display:grid;gap:14px}.resource-card{height:100%;display:flex;flex-direction:column}.resource-card h3{margin:0 0 8px}.resource-card p:not(.eyebrow){color:var(--mu);margin:0 0 16px}.resource-link{align-self:flex-start;margin-top:auto}
 table{width:100%;border-collapse:collapse;background:var(--card);border-radius:18px;overflow:hidden;margin-bottom:20px}
 th,td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--line)}th{color:var(--mu);font-weight:600}
 .foot{border-top:1px solid var(--line);padding:32px 4vw;display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;color:var(--mu)}
@@ -66,9 +70,17 @@ th,td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--line)}th{c
 .toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,30px);background:#071624;border:1px solid var(--cy);padding:12px 20px;border-radius:12px;opacity:0;pointer-events:none;transition:.3s}.toast.on{opacity:1;transform:translate(-50%,0)}
 @media(max-width:900px){.hero{grid-template-columns:1fr}.stats,.grid4,.steps,.profile{grid-template-columns:1fr 1fr}.grid3{grid-template-columns:1fr 1fr}.links{display:none}.nav .btn{margin-left:auto}}
 @media(max-width:560px){.stats,.grid4,.steps,.profile,.grid3{grid-template-columns:1fr}}
+@media(max-width:700px){.topic-progress{grid-template-columns:1fr}.topic-progress-label{align-items:flex-start}.study-controls{align-items:flex-start;flex-direction:column}}
+@media(max-width:700px){.resource-columns{grid-template-columns:1fr}.resource-filter{align-items:flex-start;flex-direction:column}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 .eyebrow{font:600 .8rem var(--mono);letter-spacing:.14em;color:var(--brand);margin:0 0 8px;text-transform:uppercase}
 h2 em,h1 em{font-style:italic;background:linear-gradient(90deg,var(--brand),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
 
 .logo-img{height:40px;width:auto;flex:none}
+body.lang-ku{font-family:"K24 Kurdish","Segoe UI",system-ui,sans-serif;font-weight:700}
+body.lang-ku .btn,body.lang-ku input,body.lang-ku select{font-family:inherit}
+body.lang-ku .q,body.lang-ku .opt,body.lang-ku .study-question,body.lang-ku .study-options,body.lang-ku .code,body.lang-ku .editor,body.lang-ku pre,body.lang-ku .review-item h3,body.lang-ku .review-expl{direction:ltr;text-align:left}
+body.lang-ku .expl{border-left:0;border-right:4px solid var(--cy);border-radius:12px 0 0 12px}
+.lang-toggle{white-space:nowrap;font-family:"K24 Kurdish","Segoe UI",sans-serif}
+body.lang-ku .topic-progress-label span{text-align:left}
